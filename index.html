@@ -468,21 +468,41 @@
 
         /* ----- MOBILE ADJUSTMENT HERE ----- */
         @media (max-width: 768px) {
-            /* 1. Keep nav visible (display: flex)
-               2. Reduce padding for a more compact look
-               3. Keep flex-direction as row (default) so items stay horizontal 
-            */
             nav {
-                display: flex; 
-                padding: 0.8rem 1rem;
+                /* Allow wrapping so links drop to 2nd line */
+                flex-wrap: wrap; 
+                padding: 1rem;
             }
 
-            /* Hide the list links on mobile so the nav doesn't take up half the screen */
+            /* Push Logo to order 1 */
+            nav h1 {
+                order: 1;
+                flex: 1; /* Pushes button to far right */
+            }
+
+            /* Push Toggle Button to order 2 (right side) */
+            #theme-toggle {
+                order: 2;
+            }
+
+            /* Push Links to order 3 (new line) */
             nav ul {
-                display: none;
+                order: 3;
+                display: flex;
+                flex-wrap: wrap; /* Allow links to wrap if screen is very small */
+                width: 100%;     /* Force full width on new line */
+                justify-content: center; /* Center them */
+                gap: 0.8rem;     /* Smaller gap */
+                margin-top: 0.5rem;
             }
             
-            .hero { padding-top: 6rem; text-align: center; }
+            nav a {
+                font-size: 0.85rem; /* Smaller text size for mobile */
+            }
+            
+            /* Increase Hero padding so Nav doesn't overlap content */
+            .hero { padding-top: 9rem; text-align: center; } 
+            
             .hero .container { flex-direction: column-reverse; gap: 2rem; }
             .about-layout { flex-direction: column; }
             .about-details-grid { grid-template-columns: 1fr; }
