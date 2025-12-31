@@ -468,9 +468,18 @@
 
         /* ----- MOBILE ADJUSTMENT HERE ----- */
         @media (max-width: 768px) {
-            /* This hides the nav on mobile devices */
+            /* 1. Keep nav visible (display: flex)
+               2. Reduce padding for a more compact look
+               3. Keep flex-direction as row (default) so items stay horizontal 
+            */
             nav {
-                display: none; 
+                display: flex; 
+                padding: 0.8rem 1rem;
+            }
+
+            /* Hide the list links on mobile so the nav doesn't take up half the screen */
+            nav ul {
+                display: none;
             }
             
             .hero { padding-top: 6rem; text-align: center; }
