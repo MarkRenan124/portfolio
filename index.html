@@ -8,6 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
     <style>
     
     
@@ -656,10 +660,11 @@
         <div class="container">
             <h2>Contact Me</h2>
             <div class="contact-container">
-                <form>
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Your Email" required>
-                    <textarea rows="5" placeholder="Your Message" required></textarea>
+                <!-- Added ID and names for EmailJS -->
+                <form id="contact-form">
+                    <input type="text" name="user_name" placeholder="Your Name" required>
+                    <input type="email" name="user_email" placeholder="Your Email" required>
+                    <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
                     <button type="submit">Send Message</button>
                 </form>
 
@@ -708,6 +713,40 @@
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.hidden').forEach((el) => observer.observe(el));
+
+        // ----------------------------------------------------
+        // EMAILJS CONFIGURATION AND SENDING LOGIC
+        // ----------------------------------------------------
+        
+        // 1. Initialize EmailJS with your PUBLIC KEY
+        (function() {
+            // TODO: REPLACE "YOUR_PUBLIC_KEY" with your actual Public Key from EmailJS Account > Account
+            emailjs.init("P_o0a0rBDUb_Q0WZ-");
+        })();
+
+        // 2. Handle Form Submission
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const btn = this.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+            btn.innerText = 'Sending...';
+
+            // TODO: REPLACE THESE with your actual IDs from EmailJS Dashboard
+            const serviceID = 'service_7nj2djj';
+            const templateID = 'template_zzi09si';
+
+            emailjs.sendForm(serviceID, templateID, this)
+                .then(() => {
+                    btn.innerText = originalText;
+                    alert('Message sent successfully!');
+                    this.reset(); // Clears the form fields
+                }, (err) => {
+                    btn.innerText = originalText;
+                    alert('Failed to send message. Please try again.');
+                    console.error('EmailJS Error:', err);
+                });
+        });
     </script>
 </body>
 </html>
